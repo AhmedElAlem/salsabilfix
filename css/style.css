@@ -143,21 +143,44 @@ body{
 .arrow.left{left:16px}
 
 .dots{
-  position:absolute; bottom:14px; left:50%;
+  position:absolute;
+  bottom:14px;
+  left:50%;
   transform:translateX(-50%);
-  display:flex; gap:8px;
-  background: rgba(0,0,0,.18);
-  padding:8px 10px;
+  display:flex;
+  gap:10px;
+  padding:10px 12px;
   border-radius:999px;
+  background: rgba(0,0,0,.18);
+  align-items:center;
 }
+
 .dot{
-  width:10px; height:10px;
+  width:12px;
+  height:12px;
+  padding:0;
+  border:0;                 /* شيل البوردر عشان مايبانش مش دايرة */
   border-radius:50%;
-  border:1px solid rgba(255,255,255,.6);
-  background: transparent;
+  background: rgba(255,255,255,.55);
   cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  outline:none;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.55) inset;  /* حافة ناعمة منتظمة */
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
 }
-.dot.is-active{background: var(--accent); border-color: var(--accent)}
+
+.dot:hover{
+  transform: scale(1.1);
+  background: rgba(255,255,255,.75);
+}
+
+.dot.is-active{
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset, 0 6px 18px rgba(0,0,0,.25);
+  transform: scale(1.15);
+}
+
 
 /* Sections */
 .section{padding:70px 0}
