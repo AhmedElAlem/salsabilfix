@@ -249,3 +249,124 @@ if (toTop) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
+// FAQ Accordion: افتح واحد فقط
+const faqItems = document.querySelectorAll('.faqList .faq');
+
+faqItems.forEach((item) => {
+  item.addEventListener('toggle', () => {
+    if (item.open) {
+      faqItems.forEach((other) => {
+        if (other !== item) other.open = false;
+      });
+    }
+  });
+});
+
+
+// ===== Reviews Carousel (independent, supports drag + dots + arrows) =====
+(function initReviewsCarousel(){
+  const root = document.querySelector('.rCarousel');
+  if(!root) return;
+
+  const viewport = root.querySelector('.rViewport');
+  const track = root.querySelector('.rTrack');
+  const slides = Array.from(root.querySelectorAll('.rSlide'));
+  const btnPrev = root.querySelector('[data-rprev], .rArrow--prev');
+  const btnNext = root.querySelector('[data-rnext], .rArrow--next');
+  const dotsWrap = root.querySelector('.rDots');
+
+  if(!viewport || !track || slides.length === 0) return;
+
+  let index = 0;
+  let startX = 0;
+  let dx = 0;
+  let dragging = false;
+
+  // build dots if not exists
+  let dots = [];
+  if(dotsWrap){
+    dotsWrap.innerHTML = '';
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rDot' + (i === 0 ? ' is-active' : '');
+      b.setAttribute('aria-label', `انتقال إلى الشهادة رقم ${i+1}`);
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
+      dots.push(b);
+    });
+  }
+
+  function update(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    // aria (اختياري)
+    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === index ? 'false' : 'true'));
+
+    if(dots.length){
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+    }
+  }
+
+  function next(){
+    index = (index + 1) % slides.length;
+    update();
+  }
+  function prev(){
+    index = (index - 1 + slides.length) % slides.length;
+    update();
+  }
+  function goTo(i){
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    update();
+  }
+
+  // arrows
+  if(btnPrev) btnPrev.addEventListener('click', prev);
+  if(btnNext) btnNext.addEventListener('click', next);
+
+  // drag (mouse + touch via pointer events)
+  viewport.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    startX = e.clientX;
+    dx = 0;
+    viewport.classList.add('is-dragging');
+    viewport.setPointerCapture(e.pointerId);
+    track.style.transition = 'none';
+  });
+
+  viewport.addEventListener('pointermove', (e) => {
+    if(!dragging) return;
+    dx = e.clientX - startX;
+    track.style.transform = `translateX(calc(-${index * 100}% + ${dx}px))`;
+  });
+
+  function endDrag(){
+    if(!dragging) return;
+    dragging = false;
+    viewport.classList.remove('is-dragging');
+    track.style.transition = ''; // يرجع الانتقال
+
+    const TH = 60; // threshold
+    if(dx <= -TH) next();      // سحب لليسار -> التالي
+    else if(dx >= TH) prev();  // سحب لليمين -> السابق
+    else update();             // رجوع
+    dx = 0;
+  }
+
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', endDrag);
+
+  // wheel (trackpad/mouse horizontal)
+  viewport.addEventListener('wheel', (e) => {
+    const ax = Math.abs(e.deltaX);
+    const ay = Math.abs(e.deltaY);
+    if(ax > ay && ax > 8){
+      e.preventDefault();
+      if(e.deltaX > 0) next();
+      else prev();
+    }
+  }, { passive:false });
+
+  update();
+})();
