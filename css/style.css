@@ -204,6 +204,34 @@ body{
 .card h3{margin:0 0 8px}
 .card p{margin:0; color:var(--muted); line-height:1.9}
 
+
+
+/* Hover effect فقط داخل قسم من نحن */
+#about .card{
+  transition: background-color .25s ease, color .25s ease, transform .25s ease, border-color .25s ease;
+}
+
+#about .card:hover{
+  background: var(--primary);
+  color: #fff;
+  border-color: rgba(255,255,255,.18);
+  transform: translateY(-2px);
+}
+
+#about .card:hover h3,
+#about .card:hover p,
+#about .card:hover span,
+#about .card:hover a{
+  color:#fff !important;
+}
+
+
+
+
+
+
+
+
 /* Gallery */
 .gallery{
   margin-top:20px;
@@ -391,3 +419,301 @@ input:focus, select:focus, textarea:focus{border-color: rgba(19,59,98,.45)}
   }
 }
 
+/* Steps */
+.steps{
+  margin-top:22px;
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:12px;
+}
+.step{
+  background: var(--card);
+  border:1px solid rgba(19,59,98,.08);
+  border-radius: var(--radius);
+  padding:18px;
+  box-shadow: var(--shadow);
+}
+.step__num{
+  width:38px; height:38px;
+  border-radius:12px;
+  display:grid; place-items:center;
+  font-weight:900;
+  background: rgba(250,193,66,.22);
+  color: var(--primary);
+  margin-bottom:10px;
+}
+.step h3{margin:0 0 8px}
+.step p{margin:0; color:var(--muted); line-height:1.9}
+
+@media (max-width: 900px){
+  .steps{grid-template-columns: repeat(2, minmax(0,1fr))}
+}
+@media (max-width: 520px){
+  .steps{grid-template-columns: 1fr}
+}
+
+/* FAQ */
+.faqList{margin-top:18px; display:grid; gap:10px}
+.faq{
+  background:#fff;
+  border:1px solid rgba(19,59,98,.12);
+  border-radius: var(--radius);
+  padding:12px 14px;
+  box-shadow: 0 8px 24px rgba(19,59,98,.08);
+}
+.faq summary{
+  cursor:pointer;
+  font-weight:900;
+  color: var(--primary);
+  list-style:none;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin:10px 0 0; color:var(--muted); line-height:1.9}
+
+
+
+/* Reviews Dark + Background Image */
+.reviewsDark{
+  position:relative;
+  background:
+    linear-gradient(90deg, rgba(19,59,98,.92), rgba(20,84,116,.78)),
+    url("../images/reviews-bg.jpg") center/cover no-repeat;
+  color:#fff;
+}
+
+.section__head--light h2{color:#fff}
+.section__head--light p{color:rgba(255,255,255,.85)}
+
+/* Reviews Carousel */
+.rCarousel{margin-top:22px; position:relative;}   /* شيلنا direction */
+.rTrack{ direction:ltr; }                          /* التحريك LTR */
+.rCard{ direction:rtl; text-align:right; }         /* المحتوى عربي */
+.rMeta{ justify-content:flex-end; }                /* اختياري: محاذاة يمين */
+
+.rViewport{
+  overflow:hidden;
+  border-radius: var(--radius);
+}
+
+.rTrack{
+  display:flex;
+  transition: transform .55s ease;
+  will-change: transform;
+}
+
+.rSlide{
+  flex:0 0 100%;
+  padding: 0 6px;
+}
+
+.rCard{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.25);
+  backdrop-filter: blur(8px);
+}
+
+.rTitle{margin:0 0 10px; font-size:24px; color:#fff}
+.rText{margin:0; line-height:1.95; color:rgba(255,255,255,.88)}
+.rMeta{
+  margin-top:14px;
+  display:flex; gap:10px; align-items:center;
+  color:rgba(255,255,255,.75);
+  font-weight:800;
+}
+.rMeta .dotSep{opacity:.6}
+
+/* Arrows */
+.rArrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px; height:44px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.28);
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+  display:grid; place-items:center;
+  z-index:2;
+}
+.rArrow--prev{right:14px}
+.rArrow--next{left:14px}
+.rArrow:hover{background: rgba(0,0,0,.36)}
+
+/* Dots */
+.rDots{
+  margin-top:12px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+.rDot{
+  width:12px; height:12px;
+  border-radius:50%;
+  border:0;
+  background: rgba(255,255,255,.45);
+  cursor:pointer;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.45) inset;
+}
+.rDot.is-active{
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset, 0 8px 20px rgba(0,0,0,.25);
+  transform: scale(1.15);
+}
+
+@media (max-width: 700px){
+  .rArrow{display:none;}
+}
+
+/* تغميق الخلفية أكثر */
+.reviewsDark::before{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(90deg,
+    rgba(19,59,98,.88),
+    rgba(20,84,116,.72)
+  );
+  pointer-events:none;
+}
+
+/* توسيط كل المحتوى */
+.rCarousel{ text-align:center; }
+.rTitle, .rText, .rMeta{ text-align:center; }
+
+/* شيل الكارت/الحز */
+.rCard--plain{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding: 0 !important;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* تحسين قراءة النص */
+.rTitle, .rText, .rMeta{
+  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.rTitle{color:#fff;}
+.rText{color:rgba(255,255,255,.90);}
+.rMeta{color:rgba(255,255,255,.80); justify-content:center;}
+
+/* Make Reviews heading more visible */
+.reviewsDark .section__head--light h2,
+.reviewsDark .section__head--light .section__title{
+  color:#fff !important;
+  opacity: 1 !important;
+  font-weight: 900;
+  text-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+
+.reviewsDark .section__head--light p,
+.reviewsDark .section__head--light .section__subtitle{
+  color: rgba(255,255,255,.92) !important;
+  opacity: 1 !important;
+  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+/* Drag behavior for reviews carousel */
+.rViewport{
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y; /* يسمح بالاسكرول رأسيًا ويمنع تعارض السحب الأفقي */
+}
+.rViewport.is-dragging{ cursor: grabbing; }
+
+
+/* ===== Reviews: force heading visibility ===== */
+.reviewsDark .section__head,
+.reviewsDark .section__head--light{
+  opacity: 1 !important; /* أهم سطر: لو فيه opacity على الهيدر */
+}
+
+.reviewsDark .section__head h2,
+.reviewsDark .section__head--light h2{
+  color:#fff !important;
+  opacity: 1 !important;
+  font-weight: 900;
+  text-shadow: 0 10px 30px rgba(0,0,0,.55);
+}
+
+.reviewsDark .section__head p,
+.reviewsDark .section__head--light p{
+  color: rgba(255,255,255,.92) !important;
+  opacity: 1 !important;
+  text-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+
+
+
+
+/* ===== Reviews Carousel Layout ===== */
+.rCarousel{margin-top:22px; position:relative; direction:rtl;}
+.rViewport{overflow:hidden; cursor:grab; user-select:none; -webkit-user-select:none; touch-action:pan-y;}
+.rViewport.is-dragging{cursor:grabbing;}
+
+.rTrack{
+  display:flex;
+  will-change: transform;
+  transition: transform .45s ease;
+}
+
+.rSlide{
+  flex: 0 0 100%;
+  padding: 0 10px;
+}
+
+/* لو عندك كارت داخلي rCard خليه يتوسط */
+.rCard{
+  max-width: 980px;
+  margin: 0 auto;
+  text-align:center;
+}
+
+/* dots (لو عايزها دوائر متساوية) */
+.rDots{display:flex; gap:10px; justify-content:center; margin-top:16px;}
+.rDot{
+  width:12px; height:12px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.7);
+  background: rgba(255,255,255,.35);
+  cursor:pointer;
+}
+.rDot.is-active{background: var(--accent); border-color: var(--accent);}
+
+/* arrows */
+.rArrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:48px; height:48px; border-radius:14px;
+  border:1px solid rgba(255,255,255,.28);
+  background: rgba(0,0,0,.25);
+  color:#fff; font-size:28px;
+  display:grid; place-items:center;
+  cursor:pointer;
+}
+.rArrow--prev{ left:18px; right:auto; }
+.rArrow--next{ right:18px; left:auto; }
+
+
+
+.contactLogo{
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  border-top: 1px solid rgba(19,59,98,.10);
+}
+
+.contactLogo img{
+  width: min(260px, 85%);
+  height: auto;
+  opacity: .35;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,.10));
+}
